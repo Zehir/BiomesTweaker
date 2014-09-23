@@ -1,5 +1,6 @@
 ##BiomesTweaker
-=============
+
+For usage please see [Wiki](https://github.com/Zehir/BiomesTweaker/wiki)
 
 [Compiling BiomesTweaker](#compiling-biomes-tweaker) - For those that want the latest unreleased features.
 
