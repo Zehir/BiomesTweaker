@@ -1,7 +1,9 @@
 ##BiomesTweaker
 
+###Usage
 For usage please see [Wiki](https://github.com/Zehir/BiomesTweaker/wiki)
 
+***
 [Compiling BiomesTweaker](#compiling-biomes-tweaker) - For those that want the latest unreleased features.
 
 [Contributing](#contributing) - For those that want to help out.
@@ -9,6 +11,7 @@ For usage please see [Wiki](https://github.com/Zehir/BiomesTweaker/wiki)
 ###Compiling Biomes tweaker
 IMPORTANT: Please report any issues you have, there might be some problems with the documentation!
 Also make sure you know EXACTLY what you're doing!  It's not any of our faults if your OS crashes, becomes corrupted, etc.
+
 ***
 [Setup Biomes Tweaker](#setup-biomes-tweaker)
 
