@@ -39,7 +39,8 @@ public class TweakRule {
 	 *            The biome id
 	 */
 	public void addAffectedBiome(int biome) {
-		LogHelper.info("Define biome id " + biome + " for rule " + this.id);
+		// Cant use BiomeDictionary.isBiomeRegistered(biome) here to check if biome exist because at this point only vanilla
+		// biomes are registred
 		this.affectedBiomesID.add(biome);
 	}
 
@@ -54,7 +55,18 @@ public class TweakRule {
 		checking: for (String biome : biomes) {
 			LogHelper.info("Checking biome data: \"" + biome + "\"");
 			// If the param is just an integer call addAffectedBiome
+			// Skip new ligne in config
+			if (biome.length() == 0)
+				continue checking;
 			if (Common.isInteger(biome)) {
+				// Check if number is a valid biome id (between 0 and 255)
+				if (!(Integer.valueOf(biome) >= 0 && Integer.valueOf(biome) <= 255)) {
+					// Adding error message
+					this.errors.add(R.CONFIG_AFFECTED_BIOMES + " -> \"" + biome
+							+ "\" is not an valid biome id");
+					// Stop routine testing but continues other
+					continue checking;
+				}
 				addAffectedBiome(Integer.valueOf(biome));
 				// If the param is an range
 			} else if (biome.length() >= 3 && biome.contains("-")) {
@@ -88,7 +100,7 @@ public class TweakRule {
 			} else {
 				// Adding error message
 				this.errors.add(R.CONFIG_AFFECTED_BIOMES + " -> \"" + biome
-						+ "\" if not an valid integer or range");
+						+ "\" is not an valid integer or range");
 				// Stop routine testing but continues other
 				continue checking;
 			}
@@ -116,12 +128,25 @@ public class TweakRule {
 	}
 
 	public void saveErros(ConfigCategory rule) {
-		LogHelper.info("Saving errors");
-		for (String error : errors) {
-			LogHelper.info("Erreurs: " + error);
+		if (this.haveErrors()) {
+			// If have errors write to log
+			LogHelper.error("Error when parsing rule " + this.id);
+			for (String error : this.errors) {
+				LogHelper.error(error);
+			}
+			// Errors data not needed anymore
+			this.errors.clear();
 		}
-		LogHelper.info("Saving complete");
+
 		// rule.setComment("Erros");
 
+	}
+
+	/**
+	 * 
+	 * @return Have errors when parsing config
+	 */
+	public boolean haveErrors() {
+		return !this.errors.isEmpty();
 	}
 }
