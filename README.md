@@ -53,6 +53,8 @@ In order to get the most up-to-date builds, you'll have to periodically update y
 ####Submitting a PullRequest
 So you found a bug in zehir's code?  Think you can make it more efficient?  Want to help in general?  Great!
 
+Note: Please use my custom code formatter, after setup Workspace import file eclipse/Zehir_ident.xml into your eclipse preferences.
+
 1. If you haven't already, create a Github account.
 2. Click the `Fork` icon located at the top-right of this page (below your username).
 3. Make the changes that you want to and commit them.
