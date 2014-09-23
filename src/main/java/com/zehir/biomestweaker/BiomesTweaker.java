@@ -23,10 +23,11 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 public class BiomesTweaker {
 
 	@Mod.Instance(R.MOD_ID)
-	public static BiomesTweaker instance;
+	public static BiomesTweaker	instance;
 
-	@SidedProxy(modId = R.MOD_ID, clientSide = R.CLIENT_PROXY_CLASS, serverSide = R.SERVER_PROXY_CLASS)
-	public static IProxy proxy;
+	@SidedProxy(modId = R.MOD_ID, clientSide = R.CLIENT_PROXY_CLASS,
+			serverSide = R.SERVER_PROXY_CLASS)
+	public static IProxy		proxy;
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -38,13 +39,12 @@ public class BiomesTweaker {
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
 		/*
-		 * LogHelper.info(BiomeGenBase.desert.biomeID);
-		 * BiomeGenBase.desert.biomeName = "test";
+		 * LogHelper.info(BiomeGenBase.desert.biomeID); BiomeGenBase.desert.biomeName = "test";
 		 * BiomeGenBase.roofedForest.biomeName = "Dust Planet";
 		 */
 		// BiomeGenBase.getBiome(0);
-		BiomeGenBase.getBiome(1).setBiomeName("tutu").setEnableSnow().setTemperatureRainfall(0.0F, 1.0F);
-		LogHelper.info(BiomeGenBase.desert.getClass());
+		BiomeGenBase.getBiome(1).setBiomeName("tutu").setEnableSnow()
+				.setTemperatureRainfall(0.0F, 1.0F);
 		LogHelper.info("Initialization Complete!");
 	}
 

@@ -13,18 +13,10 @@ import cpw.mods.fml.client.config.IConfigElement;
 public class ModGuiConfig extends GuiConfig {
 
 	public ModGuiConfig(GuiScreen guiScreen) {
-		super(
-				guiScreen,
-				new ConfigElement(
-						ConfigurationHandler.configuration
-								.getCategory(R.CATEGORY_GENERAL))
-						.getChildElements(),
-				R.MOD_ID,
-				false,
-				false,
-				GuiConfig
-						.getAbridgedConfigPath(ConfigurationHandler.configuration
-								.toString()));
+		super(guiScreen, new ConfigElement(
+				ConfigurationHandler.configuration.getCategory(R.CATEGORY_GENERAL))
+				.getChildElements(), R.MOD_ID, false, false, GuiConfig
+				.getAbridgedConfigPath(ConfigurationHandler.configuration.toString()));
 		// TODO Auto-generated constructor stub
 	}
 

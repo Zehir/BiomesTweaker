@@ -1,5 +1,5 @@
 package com.zehir.biomestweaker.proxy;
 
-public class ServerProxy extends CommonProxy{
+public class ServerProxy extends CommonProxy {
 
 }
