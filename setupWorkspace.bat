@@ -1,13 +1,9 @@
 @echo off
-
 IF EXIST "%CD%\eclipse" GOTO ECLIPSEDIR
-   echo extract eclipse.zip
-
 	setlocal
 	cd /d %~dp0
 	Call :UnZipFile "%CD%\eclipse" "%CD%\gradle\eclipse.zip"
 	exit /b
-
 	:UnZipFile <ExtractTo> <newzipfile>
 	set vbs="%temp%\_.vbs"
 	if exist %vbs% del /f /q %vbs%
