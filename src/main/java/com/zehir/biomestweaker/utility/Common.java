@@ -10,4 +10,14 @@ public class Common {
 		// only got here if we didn't return false
 		return true;
 	}
+	
+	public static boolean isFloat(String s){
+		try {
+			Float.parseFloat(s);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		// only got here if we didn't return false
+		return true;
+	}
 }

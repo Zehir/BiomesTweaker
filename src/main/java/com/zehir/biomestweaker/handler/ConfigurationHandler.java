@@ -70,8 +70,34 @@ public class ConfigurationHandler {
 			// Set affected biomes
 			LogHelper.info("Set affected biomes");
 			currentRule.setAffectedBiomes(rule.get(R.CONFIG_AFFECTED_BIOMES).getStringList());
+			currentRule.setName(rule.get(R.CONFIG_BIOME_NAME).getString());
 
-			currentRule.saveErros(rule);
+			// Rainfall
+			if (rule.get(R.CONFIG_RAINFALL) != null)
+				currentRule.setRainfall(rule.get(R.CONFIG_RAINFALL).getString());
+
+			// Temperature
+			if (rule.get(R.CONFIG_TEMPERATURE) != null)
+				currentRule.setTemperature(rule.get(R.CONFIG_TEMPERATURE).getString());
+
+			// Important Disable Rain or enable Snow after set Rainfall and Temperature
+			// Disable Rain
+			if (rule.get(R.CONFIG_DISABLE_RAIN) != null
+					&& rule.get(R.CONFIG_DISABLE_RAIN).getBoolean()) {
+				currentRule.disableRain();
+			}
+
+			// Enable Snow
+			if (rule.get(R.CONFIG_ENABLE_SNOW) != null
+					&& rule.get(R.CONFIG_ENABLE_SNOW).getBoolean()) {
+				currentRule.enableSnow();
+			}
+
+			// Log errors
+			currentRule.logErros(rule);
+
+			// TODO TMP
+			currentRule.debug();
 
 		}
 
@@ -82,16 +108,16 @@ public class ConfigurationHandler {
 		configuration.removeCategory(configuration.getCategory(R.CATEGORY_RULES_EXAMPLE));
 		// Create example rule entry for affected biomes
 		configuration.getStringList(R.CONFIG_AFFECTED_BIOMES, R.CATEGORY_RULES_EXAMPLE,
-				new String[] { "1", "3-5" }, R.CONFIG_AFFECTED_BIOMES_COMMENT + "\n\t");
+				R.AFFECTED_BIOMES_DEF, R.CONFIG_AFFECTED_BIOMES_COMMENT + "\n\t");
 		// Create example rule entry for name
 		configuration.getString(R.CONFIG_BIOME_NAME, R.CATEGORY_RULES_EXAMPLE, "Sample Name",
 				R.CONFIG_BIOME_NAME_COMMENT);
 		// Create example rule entry for temperature
-		configuration.getFloat(R.CONFIG_TEMPERATURE, R.CATEGORY_RULES_EXAMPLE, 0.8F, 2.0F, -2.0F,
-				R.CONFIG_TEMPERATURE_COMMENT);
+		configuration.getFloat(R.CONFIG_TEMPERATURE, R.CATEGORY_RULES_EXAMPLE, R.TEMP_DEF,
+				R.TEMP_MIN, R.TEMP_MAX, R.CONFIG_TEMPERATURE_COMMENT);
 		// Create example rule entry for rainfall
-		configuration.getFloat(R.CONFIG_RAINFALL, R.CATEGORY_RULES_EXAMPLE, 0.4F, 0.0F, 1.0F,
-				R.CONFIG_RAINFALL_COMMENT);
+		configuration.getFloat(R.CONFIG_RAINFALL, R.CATEGORY_RULES_EXAMPLE, R.RAIN_DEF, R.RAIN_MIN,
+				R.RAIN_MAX, R.CONFIG_RAINFALL_COMMENT);
 		// Create example rule entry for disable rain
 		configuration.getBoolean(R.CONFIG_DISABLE_RAIN, R.CATEGORY_RULES_EXAMPLE, false,
 				R.CONFIG_DISABLE_RAIN_COMMENT);

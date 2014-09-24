@@ -3,6 +3,8 @@ package com.zehir.biomestweaker.utility;
 import java.util.ArrayList;
 import java.util.List;
 
+import sun.org.mozilla.javascript.internal.Undefined;
+
 import com.zehir.biomestweaker.reference.R;
 
 import net.minecraft.world.biome.BiomeCache;
@@ -15,9 +17,9 @@ import net.minecraftforge.common.config.ConfigCategory;
 public class TweakRule {
 	private String			id					= null;
 	private List<Integer>	affectedBiomesID	= new ArrayList<Integer>();
-	private String			biomeName;
-	private float			temperature;
-	private float			rainfall;
+	private String			biomeName			= "";
+	private float			temperature			= -5;
+	private float			rainfall			= -5;
 	private boolean			disableRain			= false;
 	private boolean			enableSnow			= false;
 	private List<String>	errors				= new ArrayList<String>();
@@ -39,7 +41,8 @@ public class TweakRule {
 	 *            The biome id
 	 */
 	public void addAffectedBiome(int biome) {
-		// Cant use BiomeDictionary.isBiomeRegistered(biome) here to check if biome exist because at this point only vanilla
+		// Cant use BiomeDictionary.isBiomeRegistered(biome) here to check if
+		// biome exist because at this point only vanilla
 		// biomes are registred
 		this.affectedBiomesID.add(biome);
 	}
@@ -109,25 +112,17 @@ public class TweakRule {
 	}
 
 	/**
-	 * Return biome id
+	 * Define new biome name of rule.
 	 * 
-	 * @param biome
-	 *            The biome class or id
-	 * @return Biome Id or -1 if not found
+	 * @param name
+	 *            The biomes name
 	 */
-	private int getBiomeId(String biome) {
-		// Check if the parameter is an integer
-		if (Common.isInteger(biome)) {
-			// If this biome exist return his id
-			if (BiomeDictionary.isBiomeRegistered(Integer.valueOf(biome)))
-				return Integer.valueOf(biome);
-		} else {
-
-		}
-		return -1;
+	public void setName(String name) {
+		if (!name.isEmpty())
+			this.biomeName = name;
 	}
 
-	public void saveErros(ConfigCategory rule) {
+	public void logErros(ConfigCategory rule) {
 		if (this.haveErrors()) {
 			// If have errors write to log
 			LogHelper.error("Error when parsing rule " + this.id);
@@ -137,9 +132,6 @@ public class TweakRule {
 			// Errors data not needed anymore
 			this.errors.clear();
 		}
-
-		// rule.setComment("Erros");
-
 	}
 
 	/**
@@ -149,4 +141,100 @@ public class TweakRule {
 	public boolean haveErrors() {
 		return !this.errors.isEmpty();
 	}
+
+	/**
+	 * Print in log info all data of selected rule
+	 */
+	public void debug() {
+		LogHelper.info("Debug Rule ID: " + this.id);
+		if (!this.affectedBiomesID.isEmpty()) {
+			String biomeList = "";
+			for (Integer biomeId : this.affectedBiomesID) {
+				biomeList += (biomeId + ", ");
+			}
+			LogHelper.info("affectedBiomes: " + biomeList.substring(0, biomeList.length() - 2));
+		}
+		if (!this.biomeName.isEmpty())
+			LogHelper.info("biomeName: \"" + this.biomeName + "\"");
+		if (this.disableRain)
+			LogHelper.info("disableRain: true");
+		if (this.enableSnow)
+			LogHelper.info("enableSnow: true");
+		if (this.rainfall != -5)
+			LogHelper.info("rainfall: " + this.rainfall);
+		if (this.temperature != -5)
+			LogHelper.info("temperature: " + this.temperature);
+	}
+
+	/**
+	 * Disable rain
+	 */
+	public void disableRain() {
+		this.disableRain = true;
+		this.rainfall = 0;
+	}
+
+	/**
+	 * Enable snow and set temperature below 0.1 if above
+	 */
+	public void enableSnow() {
+		this.enableSnow = true;
+		if (this.temperature > 0.1F)
+			this.temperature = 0.1F;
+	}
+
+	/**
+	 * Set Rainfall value
+	 * 
+	 * @param rainfall
+	 *            Rainfall value
+	 */
+	public void setRainfall(float rainfall) {
+		if (rainfall > R.RAIN_MAX) {
+			this.rainfall = R.RAIN_MAX;
+		} else if (rainfall < R.RAIN_MIN) {
+			this.rainfall = R.RAIN_MIN;
+		} else {
+			this.rainfall = rainfall;
+		}
+	}
+
+	/**
+	 * Set Rainfall value
+	 * 
+	 * @param rainfall
+	 *            Rainfall value
+	 */
+	public void setRainfall(String rainfall) {
+		if (Common.isFloat(rainfall))
+			this.setRainfall(Float.valueOf(rainfall));
+	}
+
+	/**
+	 * Set temperature
+	 * 
+	 * @param temperature
+	 *            Temperature
+	 */
+	public void setTemperature(float temperature) {
+		if (temperature > R.TEMP_MAX) {
+			this.temperature = R.TEMP_MAX;
+		} else if (temperature < R.TEMP_MIN) {
+			this.temperature = R.TEMP_MIN;
+		} else {
+			this.temperature = temperature;
+		}
+	}
+
+	/**
+	 * Set temperature
+	 * 
+	 * @param temperature
+	 *            Temperature
+	 */
+	public void setTemperature(String temperature) {
+		if (Common.isFloat(temperature))
+			this.setTemperature(Float.valueOf(temperature));
+	}
+
 }
