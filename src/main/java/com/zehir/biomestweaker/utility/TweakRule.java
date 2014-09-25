@@ -5,6 +5,7 @@ import java.util.List;
 
 import sun.org.mozilla.javascript.internal.Undefined;
 
+import com.zehir.biomestweaker.handler.ConfigurationHandler;
 import com.zehir.biomestweaker.reference.R;
 
 import net.minecraft.world.biome.BiomeCache;
@@ -15,14 +16,14 @@ import net.minecraftforge.common.BiomeManager.BiomeEntry;
 import net.minecraftforge.common.config.ConfigCategory;
 
 public class TweakRule {
-	private String			id					= null;
-	private List<Integer>	affectedBiomesID	= new ArrayList<Integer>();
-	private String			biomeName			= "";
-	private float			temperature			= -5;
-	private float			rainfall			= -5;
-	private boolean			disableRain			= false;
-	private boolean			enableSnow			= false;
-	private List<String>	errors				= new ArrayList<String>();
+	private String id = null;
+	private List<Integer> affectedBiomesID = new ArrayList<Integer>();
+	private String biomeName = "";
+	private float temperature = -5;
+	private float rainfall = -5;
+	private boolean disableRain = false;
+	private boolean enableSnow = false;
+	private List<String> errors = new ArrayList<String>();
 
 	/**
 	 * Creates a new rule
@@ -80,8 +81,9 @@ public class TweakRule {
 				for (int i = 0; i <= 1; i++) {
 					if (!Common.isInteger(parts[i])) {
 						// Adding error message
-						this.errors.add(R.CONFIG_AFFECTED_BIOMES + " -> \"" + biome + "\"; \""
-								+ parts[i] + "\" is not an valid integer");
+						this.errors.add(R.CONFIG_AFFECTED_BIOMES + " -> \""
+								+ biome + "\"; \"" + parts[i]
+								+ "\" is not an valid integer");
 						// Stop routine testing but continues other
 						continue checking;
 					}
@@ -89,14 +91,16 @@ public class TweakRule {
 				// Check if start is before end
 				if (Integer.valueOf(parts[0]) > Integer.valueOf(parts[1])) {
 					// Adding error message
-					this.errors.add(R.CONFIG_AFFECTED_BIOMES + " -> \"" + biome + "\"; \""
-							+ parts[0] + "\" is greather than \"" + parts[1] + "\"");
+					this.errors.add(R.CONFIG_AFFECTED_BIOMES + " -> \"" + biome
+							+ "\"; \"" + parts[0] + "\" is greather than \""
+							+ parts[1] + "\"");
 					// Stop routine testing but continues other
 					continue checking;
 				}
 
 				// For each integer in range call addAffectedBiome
-				for (int i = Integer.valueOf(parts[0]); i <= Integer.valueOf(parts[1]); i++) {
+				for (int i = Integer.valueOf(parts[0]); i <= Integer
+						.valueOf(parts[1]); i++) {
 					this.addAffectedBiome(i);
 				}
 
@@ -152,7 +156,8 @@ public class TweakRule {
 			for (Integer biomeId : this.affectedBiomesID) {
 				biomeList += (biomeId + ", ");
 			}
-			LogHelper.info("affectedBiomes: " + biomeList.substring(0, biomeList.length() - 2));
+			LogHelper.info("affectedBiomes: "
+					+ biomeList.substring(0, biomeList.length() - 2));
 		}
 		if (!this.biomeName.isEmpty())
 			LogHelper.info("biomeName: \"" + this.biomeName + "\"");
@@ -237,4 +242,124 @@ public class TweakRule {
 			this.setTemperature(Float.valueOf(temperature));
 	}
 
+	/**
+	 * Get the biome name
+	 * 
+	 * @return Biome Name
+	 */
+	public String getBiomeName() {
+		return this.biomeName;
+	}
+
+	/**
+	 * Get if the disable Rain option is set
+	 * 
+	 * @return true or false
+	 */
+	public boolean getdisableRain() {
+		return this.disableRain;
+	}
+
+	/**
+	 * Get if the enable Snow option is set
+	 * 
+	 * @return true or false
+	 */
+	public boolean getEnableSnow() {
+		return this.enableSnow;
+	}
+
+	/**
+	 * Return rainfall value
+	 * 
+	 * @return rainfall
+	 */
+	public float getRainfall() {
+		return this.rainfall;
+	}
+
+	/**
+	 * Return temperature value
+	 * 
+	 * @return temperature
+	 */
+	public float getTemperature() {
+		return this.temperature;
+	}
+
+	/**
+	 * Apply rules to the biomes
+	 */
+	public void applyTweakRule() {
+		if (ConfigurationHandler.debug)
+			LogHelper.info("Apply rule " + this.id);
+		for (Integer biomeID : this.affectedBiomesID) {
+			if (ConfigurationHandler.debug)
+				LogHelper.info("Apply rule " + this.id + " on biome id "
+						+ biomeID);
+			// Check if biome is registered
+			if (BiomeDictionary.isBiomeRegistered(biomeID)) {
+				// Get biome
+				BiomeGenBase biome = BiomeGenBase.getBiome(biomeID);
+
+				// Define biomeName
+				if (!this.getBiomeName().isEmpty()) {
+					biome.setBiomeName(this.getBiomeName());
+					if (ConfigurationHandler.debug)
+						LogHelper.info("Apply rule " + this.id
+								+ " on biome id " + biomeID + " set name:"
+								+ this.getBiomeName());
+				}
+
+				// Define temperature and rainfall
+				if ((this.getTemperature() != R.TEMP_DEF)
+						&& (this.getRainfall() != R.RAIN_DEF)) {
+					// If option temperature and railfall are set
+					biome.setTemperatureRainfall(this.getTemperature(),
+							this.getRainfall());
+					if (ConfigurationHandler.debug)
+						LogHelper.info("Apply rule " + this.id
+								+ " on biome id " + biomeID
+								+ " set remperature:" + this.getTemperature()
+								+ " and rainfall:" + this.getRainfall());
+				} else if (this.getTemperature() != R.TEMP_DEF) {
+					// Only if temperature is set
+					biome.setTemperatureRainfall(this.getTemperature(),
+							biome.rainfall);
+					if (ConfigurationHandler.debug)
+						LogHelper.info("Apply rule " + this.id
+								+ " on biome id " + biomeID
+								+ " set remperature:" + this.getTemperature());
+				} else if (this.getRainfall() != R.RAIN_DEF) {
+					// Only if rainfall is set
+					biome.setTemperatureRainfall(biome.temperature,
+							this.getRainfall());
+					if (ConfigurationHandler.debug)
+						LogHelper.info("Apply rule " + this.id
+								+ " on biome id " + biomeID + " set rainfall:"
+								+ this.getRainfall());
+				}
+
+				// Disable rain
+				if (this.getdisableRain()) {
+					biome.setDisableRain();
+					if (ConfigurationHandler.debug)
+						LogHelper.info("Apply rule " + this.id
+								+ " on biome id " + biomeID + " disable rain");
+				}
+
+				// Enable snow
+				if (this.getEnableSnow()) {
+					biome.setEnableSnow();
+					if (ConfigurationHandler.debug)
+						LogHelper.info("Apply rule " + this.id
+								+ " on biome id " + biomeID + " enable snow");
+				}
+			} else if (ConfigurationHandler.debug) {
+				LogHelper.warn("The biome with id " + biomeID
+						+ " is not registred (rule: " + this.id
+						+ ") This warning can be ignored");
+			}
+		}
+	}
 }

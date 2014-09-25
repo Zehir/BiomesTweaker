@@ -17,7 +17,6 @@ public class ModGuiConfig extends GuiConfig {
 				ConfigurationHandler.configuration.getCategory(R.CATEGORY_GENERAL))
 				.getChildElements(), R.MOD_ID, false, false, GuiConfig
 				.getAbridgedConfigPath(ConfigurationHandler.configuration.toString()));
-		// TODO Auto-generated constructor stub
 	}
 
 }
