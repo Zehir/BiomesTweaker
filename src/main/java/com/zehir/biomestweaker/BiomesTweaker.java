@@ -33,12 +33,12 @@ public class BiomesTweaker {
 	public void preInit(FMLPreInitializationEvent event) {
 		ConfigurationHandler.init(event.getSuggestedConfigurationFile());
 		FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
-		LogHelper.info("Pre Initialization Complete!");
+		LogHelper.info("Configuration loaded!");
 	}
 
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		ConfigurationHandler.applyTweaks();
-		LogHelper.info("Post Initialization Complete!");
+		LogHelper.info("Biomes tweaked!");
 	}
 }

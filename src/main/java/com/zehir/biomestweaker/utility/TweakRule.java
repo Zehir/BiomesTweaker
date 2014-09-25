@@ -57,7 +57,6 @@ public class TweakRule {
 	public void setAffectedBiomes(String[] biomes) {
 		// For each biomes run method addAffectedBiome
 		checking: for (String biome : biomes) {
-			LogHelper.info("Checking biome data: \"" + biome + "\"");
 			// If the param is just an integer call addAffectedBiome
 			// Skip new ligne in config
 			if (biome.length() == 0)

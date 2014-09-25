@@ -74,7 +74,6 @@ public class ConfigurationHandler {
 			TweakRule currentRule = new TweakRule(rule.getName());
 
 			// Set affected biomes
-			LogHelper.info("Set affected biomes");
 			currentRule.setAffectedBiomes(rule.get(R.CONFIG_AFFECTED_BIOMES)
 					.getStringList());
 			currentRule.setName(rule.get(R.CONFIG_BIOME_NAME).getString());
