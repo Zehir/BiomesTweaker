@@ -300,7 +300,7 @@ public class TweakRule {
 			if (BiomeDictionary.isBiomeRegistered(biomeID)) {
 				// Get biome
 				BiomeGenBase biome = BiomeGenBase.getBiome(biomeID);
-
+				
 				// Define biomeName
 				if (!this.getBiomeName().isEmpty()) {
 					biome.setBiomeName(this.getBiomeName());

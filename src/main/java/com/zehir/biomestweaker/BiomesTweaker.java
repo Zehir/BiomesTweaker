@@ -9,6 +9,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenBeach;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.BiomeManager.BiomeEntry;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -27,6 +28,7 @@ public class BiomesTweaker {
 
 	@SidedProxy(modId = R.MOD_ID, clientSide = R.CLIENT_PROXY_CLASS, serverSide = R.SERVER_PROXY_CLASS)
 	public static IProxy proxy;
+
 	// TODO Sync tweaks rules between server and client
 
 	@Mod.EventHandler
@@ -39,6 +41,16 @@ public class BiomesTweaker {
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		ConfigurationHandler.applyTweaks();
+		/*
+		 * TODO Future! BiomeGenBase biome = BiomeGenBase.getBiome(1);
+		 * 
+		 * BiomeDictionary.registerBiomeType(biome,
+		 * BiomeDictionary.Type.valueOf("OCEAN"));
+		 * 
+		 * 
+		 * Type[] types = BiomeDictionary.getTypesForBiome(biome); for (Type
+		 * type : types) { LogHelper.info(type.name()); }
+		 */
 		LogHelper.info("Biomes tweaked!");
 	}
 }
