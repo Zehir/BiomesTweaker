@@ -33,7 +33,7 @@ minecraft {
     version = config.minecraft_version + "-" + config.forge_version
     
     replaceIn "reference/R.java"
-    replace "@VERSION@", "${config.mod_version}.${System.getenv("BUILD_NUMBER") ?: 0}"
+    replace "@VERSION@", "${config.mod_version}"
     if (project.hasProperty("biomestweaker_signature")) {
         replace "@FINGERPRINT@", project.biomestweaker_signature
     }
@@ -41,7 +41,7 @@ minecraft {
     assetDir = "eclipse/assets"
 }
 
-version = "${config.minecraft_version}-${config.mod_version}.${System.getenv("BUILD_NUMBER") ?: 0}"
+version = "${config.minecraft_version}-${config.mod_version}"
 
 dependencies {
     // you may put jars on which you depend on in ./libs
