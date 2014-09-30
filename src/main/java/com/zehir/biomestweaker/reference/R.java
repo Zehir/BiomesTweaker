@@ -1,5 +1,12 @@
 package com.zehir.biomestweaker.reference;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.zehir.biomestweaker.utility.TweakRule;
+
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.config.Configuration;
 
 public class R {
@@ -26,6 +33,7 @@ public class R {
 	public static final float		RAIN_MIN						= 0F;
 	public static final float		RAIN_DEF						= 0.4F;
 	public static final String[]	AFFECTED_BIOMES_DEF				= new String[] { "1", "3-5" };
+	public static final String[]	BIOME_TYPES_DEF					= new String[] { "PLAINS" };
 
 	// Config
 	public static final String		CATEGORY_GENERAL				= "general";
@@ -40,10 +48,21 @@ public class R {
 																			+ Configuration.NEW_LINE
 																			+ "If this sample is deleted or edited it will be re-created.";
 
+	public static final String		CONFIG_DEBUGMODE				= "debug";
+	public static final String		CONFIG_DEBUGMODE_COMMENT		= "Debug mode";
+
+	public static final String		CONFIG_GEN_SAMPLE				= "generateSample";
+	public static final String		CONFIG_GEN_SAMPLE_COMMENT		= "Generate a sample rule";
+
 	public static final String		CONFIG_AFFECTED_BIOMES			= "affectedBiomes";
 	public static final String		CONFIG_AFFECTED_BIOMES_COMMENT	= "Can be biome id or range of biome id (1-4)"
 																			+ Configuration.NEW_LINE
 																			+ "If biome is not found it will just ignored";
+
+	public static final String		CONFIG_BIOME_TYPE				= "biomeTypes";
+	public static final String		CONFIG_BIOME_TYPE_COMMENT		= "Add biome types"
+																			+ Configuration.NEW_LINE
+																			+ "We can just add type because of forge api";
 
 	public static final String		CONFIG_BIOME_NAME				= "biomeName";
 	public static final String		CONFIG_BIOME_NAME_COMMENT		= "Biome Name Ex: Desert";
