@@ -64,7 +64,7 @@ Note: Please use my custom code formatter, after setup Workspace import file ecl
 6. Click `Send pull request`, and wait for feedback!
 
 ####Creating an Issue
-EE3 crashes every time?  Have a suggestion?  Found a bug?  Create an issue now!
+BiomeTeaker crashes every time?  Have a suggestion?  Found a bug?  Create an issue now!
 
 1. Make sure your issue hasn't already been answered or fixed.  Also think about whether your issue is a valid one before submitting it.
 	* Please do not open an issue to ask a question.
